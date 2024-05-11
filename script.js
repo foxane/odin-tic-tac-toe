@@ -56,3 +56,30 @@ const Board = function () {
   };
   return { reset, addMarker, checkWin, checkDraw, debug };
 };
+
+const Game = function () {
+  let status = "";
+  const score = [0, 0];
+  let turn = 0;
+  const setStatus = function (newStatus) {
+    status = newStatus;
+  };
+  const addScore = function () {
+    score[turn]++;
+    console.log(score);
+  };
+  const changeTurn = function () {
+    turn === 0 ? turn++ : turn--;
+    console.log(turn);
+  };
+  const resetScore = function () {
+    score = [0, 0];
+  };
+  return { setStatus, addScore, changeTurn, resetScore };
+};
+
+const currentGame = (function () {
+  const player = [Player("player 1", "x"), Player("player 2", "o")];
+  const board = Board();
+  const game = Game();
+})();
