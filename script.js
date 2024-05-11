@@ -78,8 +78,27 @@ const Game = function () {
   return { setStatus, addScore, changeTurn, resetScore };
 };
 
+const DOM = function () {
+  const cells = document.querySelectorAll(".cell");
+  const render = function () {
+    // for (const [i, val] of board.gameBoard.entries()) {
+    //   cells[i].innerText = "awdwadal";
+    // }
+  };
+  return { cells, render };
+};
+
 const currentGame = (function () {
   const player = [Player("player 1", "x"), Player("player 2", "o")];
   const board = Board();
   const game = Game();
+  const dom = DOM();
+  const runtime = { ...board, ...game, ...dom };
+  runtime.cells.forEach((cell) => {
+    cell.addEventListener("click", function () {
+      const pos = Number(cell.getAttribute("id"));
+      this.addMarker(pos, player[this.turn].marker).bind(this);
+    });
+  });
+  console.log(player[runtime.turn].marker);
 })();
