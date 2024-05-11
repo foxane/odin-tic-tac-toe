@@ -18,3 +18,65 @@
 5. Write the functions that allow players to add marks to a specific spot on the board by interacting with the appropriate DOM elements (e.g. letting players click on a board square to place their marker). Don’t forget the logic that keeps players from playing in spots that are already taken!
 
 6. Clean up the interface to allow players to put in their names, include a button to start/restart the game and add a display element that shows the results upon game end!
+
+```
+const gameController = (function (gameBoard, gameState, player1, player2) {
+  const startGame = () => {
+    gameBoard.resetBoard();
+    gameState.changeStatus("running");
+    gameState.changeTurn(0); // Assuming player 1 starts first
+    // Additional initialization logic if needed
+    console.log("Game started!");
+    // Optional: Display initial game status to players
+    // displayGameStatus();
+    playTurn();
+  };
+
+  const playTurn = () => {
+    const currentPlayer = getCurrentPlayer();
+    // Optional: Display current player's turn to players
+    // displayPlayerTurn(currentPlayer);
+    // Wait for player input or handle AI move
+    // For simplicity, assuming manual input in this example
+    // handlePlayerInput();
+    // After player makes move, update game board
+    // updateGameBoard();
+    // Check for win/draw conditions
+    if (gameBoard.checkWin()) {
+      handleWin(currentPlayer);
+    } else if (gameBoard.checkDraw()) {
+      handleDraw();
+    } else {
+      // If game is still ongoing, switch turns and continue
+      switchTurn();
+      playTurn();
+    }
+  };
+
+  const getCurrentPlayer = () => (gameState.getTurn() === 0 ? player1 : player2);
+
+  const switchTurn = () => gameState.changeTurn();
+
+  const handleWin = (winner) => {
+    gameState.addScore(winner === player1 ? 0 : 1);
+    // Display win message and update score
+    console.log(`${winner.getName()} wins! Score: ${gameState.score[0]}-${gameState.score[1]}`);
+    // Ask players if they want to play again or exit
+    // handlePlayAgain();
+  };
+
+  const handleDraw = () => {
+    // Display draw message
+    console.log("It's a draw!");
+    // Ask players if they want to play again or exit
+    // handlePlayAgain();
+  };
+
+  // Additional functions for user input handling, displaying game status, etc. can be added here
+
+  return { startGame };
+})(gameBoard, gameState, createPlayer("Player 1", "X"), createPlayer("Player 2", "O"));
+
+// Start the game
+gameController.startGame();
+```
