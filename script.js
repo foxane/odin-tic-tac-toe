@@ -39,10 +39,11 @@ const gameBoard = (function () {
     return false;
   };
 
+  resetBoard();
   return { getBoard, resetBoard, addMarker, checkDraw, checkDraw, checkWin };
 })();
 
-const gameHandler = function () {
+const gameHandler = (function () {
   // PLayer will be indexed based on turn
   let turn = 0;
   let status = "running";
@@ -54,32 +55,53 @@ const gameHandler = function () {
   const addScore = (winnerIndex) => score[winnerIndex]++;
   const handleDraw = () => console.log("draw");
   const handleWin = () => console.log("win");
-
-  return { resetTurn, switchTurn, setStatus, addScore, handleDraw, handleWin };
-};
-
-const domHandler = function () {
-  const cells = document.querySelectorAll(".cell");
-
-  const inputControl = (position, marker) => {
+  const inputControl = (position) => {
     if (gameBoard.getBoard()[position] === null) {
-      gameBoard.addMarker(position, "x");
-      render();
-      console.log(gameBoard.getBoard());
+      gameFlow.playTurn(position);
     }
   };
 
+  return {
+    inputControl,
+    resetTurn,
+    switchTurn,
+    setStatus,
+    addScore,
+    handleDraw,
+    handleWin,
+  };
+})();
+
+const domHandler = (function () {
+  const cells = document.querySelectorAll(".cell");
   const render = () => {
     for (const [i, mark] of gameBoard.getBoard().entries()) {
       cells[i].style.backgroundImage = `url(./images/${mark}.png)`;
     }
   };
 
+  // Event listener
   cells.forEach((cell) => {
     cell.addEventListener("click", function (e) {
-      inputControl(Number(e.target.getAttribute("id")));
+      gameHandler.inputControl(Number(e.target.getAttribute("id")));
     });
   });
+
+  return { render };
+})();
+
+// Procedure control
+const gameFlow = function () {
+  // Initialize game
+  // TOBE ADDED
+
+  // Each turn controller
+  const playTurn = (position) => {
+    // TOBE ADDED
+    gameBoard.addMarker(position, currentPlayer.getMarker());
+    domHandler.render();
+    gameBoard.checkWin();
+    gameBoard.checkDraw();
+    console.log(gameBoard.getBoard());
+  };
 };
-gameBoard.resetBoard();
-domHandler();
