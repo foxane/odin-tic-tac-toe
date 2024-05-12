@@ -8,7 +8,18 @@
   </head>
   <body>
     <div class="game">
-      <h1>Tic Tac Toe</h1>
+      <div class="game-header">
+        <h1>Tic Tac Toe</h1>
+        <div class="scores">
+          <h2>Scores</h2>
+          <p id="player1-name">
+            Player 1 : <strong><span id="player1-score">10</span></strong>
+          </p>
+          <p id="player2-name">
+            Player 2 : <strong><span id="player2-score">20</span></strong>
+          </p>
+        </div>
+      </div>
       <div class="cells">
         <div class="cell" id="0"><img src="images/o.png" /></div>
         <div class="cell" id="1"></div>
@@ -21,6 +32,18 @@
         <div class="cell" id="8"></div>
       </div>
     </div>
+    <aside>
+      <dialog class="">
+        <div class="content">
+          <p id="status">Player wins!</p>
+          <p>Play again?</p>
+          <div class="dialog-buttons">
+            <button id="dialog-no">Nah</button>
+            <button id="dialog-yes">Sure, why not</button>
+          </div>
+        </div>
+      </dialog>
+    </aside>
     <script src="script.js"></script>
   </body>
 </html>

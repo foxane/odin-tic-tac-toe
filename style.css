@@ -14,11 +14,16 @@ body {
 .game {
   background-color: #686868;
   color: black;
-  width: 600px;
-  height: 600px;
   border-radius: 10px;
-  padding: 10px;
+  padding: 10px 40px 30px;
   text-align: center;
+}
+.game-header {
+  display: grid;
+  grid-template-columns: 1fr 200px;
+}
+h1 {
+  align-self: center;
 }
 .cells {
   border: 4px double black;
@@ -38,4 +43,46 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* Modal */
+.hidden {
+  display: none;
+}
+dialog {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: hsla(0, 0%, 15%, 0.822);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+dialog .content {
+  min-width: 400px;
+  min-height: 200px;
+  background-color: #b9b8b8;
+  border: 5px double white;
+  border-radius: 10px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-evenly;
+  align-items: center;
+}
+#status {
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-shadow: 5px 5px 5px rgb(133, 133, 133);
+  color: rgb(0, 0, 0);
+}
+.dialog-buttons {
+  display: flex;
+  gap: 20px;
+}
+.dialog-buttons button {
+  width: 150px;
+  padding: 0.5em 0;
+  font-size: 1rem;
+  font-weight: bold;
 }

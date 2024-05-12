@@ -1,5 +1,6 @@
 "use strict";
 
+
 const createPlayer = function (name, marker) {
   const getName = () => name;
   const getMarker = () => marker;
@@ -65,7 +66,8 @@ const moveHandler = (function () {
   return { isValid };
 })();
 
-const gameController = (function (
+// TODO: uncomment below code
+// const gameController = (function (
   gameBoard,
   gameState,
   moveHandler,
@@ -86,6 +88,8 @@ const gameController = (function (
   const handleGameOver = () => {
     if (confirm("Play Again?")) {
       startGame();
+    } else {
+      return;
     }
   };
 
