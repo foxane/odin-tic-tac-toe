@@ -1,17 +1,15 @@
 "use strict";
 document.querySelector("dialog").classList.toggle("hidden");
 
-const cells = document.querySelectorAll(".cell");
-cells.forEach((cell) =>
-  cell.addEventListener("click", function () {
-    gameBoard.addMarker(this.getAttribute("id"), currentPlayer.getMarker());
-  })
-);
-const render = () => {
-  for (const [i, cell] of cells.entries()) {
-    cell.style.backgroundImage = `url(./images/${board[i]}.png)`;
-  }
-};
+const DOM = (function () {
+  const cells = document.querySelectorAll(".cell");
+  const render = () => {
+    for (const [i, cell] of cells.entries()) {
+      cell.style.backgroundImage = `url(./images/${board[i]}.png)`;
+    }
+  };
+  return { getPosition, render };
+})();
 
 const createPlayer = function (name, marker) {
   const getName = () => name;
@@ -79,7 +77,7 @@ const moveHandler = (function () {
 })();
 
 // TODO: uncomment below code
-const gameController = function (
+const gameController = (function (
   gameBoard,
   gameState,
   moveHandler,
@@ -117,9 +115,7 @@ const gameController = function (
 
   const playTurn = () => {
     const currentPlayer = gameState.getTurn() === 0 ? player1 : player2;
-    const movePosition = Number(
-      prompt(`${currentPlayer.getName()} turn, input position:`)
-    );
+    const movePosition = DOM.getPosition(); // Get position from event listener
     // Input validation,
     moveHandler.isValid(movePosition)
       ? gameBoard.addMarker(movePosition, currentPlayer.getMarker())
@@ -139,12 +135,12 @@ const gameController = function (
   };
 
   startGame();
-};
+})(
+  gameBoard,
+  gameState,
+  moveHandler,
+  DOM,
+  createPlayer("Player 1", "x"),
+  createPlayer("Player 2", "o")
+);
 // Game controller parameters
-// (
-//   gameBoard,
-//   gameState,
-//   moveHandler,
-//   createPlayer("Player 1", "x"),
-//   createPlayer("Player 2", "o")
-// )
