@@ -12,15 +12,20 @@
         <h1>Tic Tac Toe</h1>
         <div class="players">
           <h2>Scores</h2>
-          <p id="player1-name">
-            Player 1 :
-            <strong><span id="player-score-1" class="score">10</span></strong>
+          <p>
+            <span id="p1-name">Player 1</span>
+
+            <strong>
+              : <span id="player-score-1" class="score">10</span></strong
+            >
           </p>
-          <p id="player2-name">
-            Player 2 :
-            <strong><span id="player-score-2" class="score">20</span></strong>
+          <p>
+            <span id="p2-name">Player 2</span>
+            <strong>
+              : <span id="player-score-2" class="score">20</span></strong
+            >
           </p>
-          <button id="c">Change Name</button>
+          <button id="change-name">Change Name</button>
         </div>
       </div>
       <div class="cells">
@@ -44,6 +49,20 @@
           </div>
         </div>
       </dialog>
+      <div class="new-name-modal hidden">
+        <div class="content">
+          <h2>Enter new name</h2>
+          <label for="p1-new"
+            ><span class="new-name-label">Player 1</span>
+            <input id="p1-new" type="text" required />
+          </label>
+          <label for="p2-new"
+            ><span class="new-name-label">Player 2</span>
+            <input id="p2-new" type="text" required />
+          </label>
+          <button id="cn-confirm">Confirm</button>
+        </div>
+      </div>
     </aside>
     <script src="script.js"></script>
   </body>

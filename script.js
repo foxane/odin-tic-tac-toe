@@ -4,11 +4,12 @@
 const createPlayer = function (name, marker) {
   let score = 0;
   const getName = () => name;
+  const setName = (newName) => (name = newName);
   const getMarker = () => marker;
   const addScore = () => score++;
   const getScore = () => score;
 
-  return { addScore, getScore, getName, getMarker };
+  return { setName, addScore, getScore, getName, getMarker };
 };
 
 // Put in global so it dont get affected by game
@@ -89,9 +90,22 @@ const domHandler = (function () {
   const cells = document.querySelectorAll(".cell");
   const scores = document.querySelectorAll(".score");
   const dialog = document.querySelector("dialog");
+  const newNameModal = document.querySelector(".new-name-modal");
+  const p1Name = document.getElementById("p1-name");
+  const p2Name = document.getElementById("p2-name");
+  const p1NewName = document.getElementById("p1-new");
+  const p2NewName = document.getElementById("p2-new");
+  const renderName = () => {
+    p1Name.textContent = players[0].getName();
+    p2Name.textContent = players[1].getName();
+  };
   const renderBoard = () => {
     for (const [i, mark] of gameBoard.getBoard().entries()) {
-      cells[i].textContent = mark;
+      if (mark === null) {
+        cells[i].innerHTML = ``;
+      } else {
+        cells[i].innerHTML = `<img src="./images/${mark}.png">`;
+      }
     }
   };
   const renderScore = (playerArr) => {
@@ -124,6 +138,22 @@ const domHandler = (function () {
   dialog.addEventListener("click", () => {
     gameFlow.gameInit();
     dialog.classList.add("hidden");
+  });
+  document.querySelector("#change-name").addEventListener("click", () => {
+    newNameModal.classList.remove("hidden");
+  });
+  document.querySelector("#cn-confirm").addEventListener("click", (e) => {
+    e.preventDefault();
+    if (p1NewName.value && p2NewName.value) {
+      players[0].setName(p1NewName.value);
+      players[1].setName(p2NewName.value);
+      p1NewName.value = "";
+      p2NewName.value = "";
+      renderName();
+      newNameModal.classList.add("hidden");
+    } else {
+      alert("New names cannot be empty!");
+    }
   });
 
   return { renderDialog, renderBoard, renderScore };

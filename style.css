@@ -28,12 +28,12 @@ body {
   overflow: hidden;
 }
 .players button {
-  margin-top: 20px;
+  margin-top: 10px;
   padding: 5px 10px;
   font-size: 1rem;
   font-weight: 600;
   background-color: #9b9b9b;
-  border: 1px solid white;
+  border: 1px solid black;
   border-radius: 5px;
   cursor: pointer;
 }
@@ -67,9 +67,7 @@ body {
 }
 
 /* Modal */
-.hidden {
-  display: none;
-}
+
 dialog {
   position: absolute;
   top: 0;
@@ -106,4 +104,47 @@ dialog .content {
   padding: 0.5em 0;
   font-size: 1rem;
   font-weight: bold;
+}
+
+/*  CN modal */
+.new-name-modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(27, 27, 27, 0.651);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.new-name-modal .content {
+  min-width: 400px;
+  min-height: 220px;
+  background-color: grey;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+}
+.content label {
+  width: 200px;
+  position: relative;
+}
+#cn-confirm {
+  padding: 5px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.new-name-label {
+  position: absolute;
+  bottom: 100%;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+/* Util */
+.hidden {
+  display: none;
 }
