@@ -13,10 +13,12 @@
         <div class="scores">
           <h2>Scores</h2>
           <p id="player1-name">
-            Player 1 : <strong><span id="player1-score">10</span></strong>
+            Player 1 :
+            <strong><span id="player-score-1" class="score">10</span></strong>
           </p>
           <p id="player2-name">
-            Player 2 : <strong><span id="player2-score">20</span></strong>
+            Player 2 :
+            <strong><span id="player-score-2" class="score">20</span></strong>
           </p>
         </div>
       </div>
@@ -33,13 +35,11 @@
       </div>
     </div>
     <aside>
-      <dialog class="">
+      <dialog class="hidden">
         <div class="content">
           <p id="status">Player wins!</p>
-          <p>Play again?</p>
           <div class="dialog-buttons">
-            <button id="dialog-no">Nah</button>
-            <button id="dialog-yes">Sure, why not</button>
+            <button id="dialog-btn">Confirm</button>
           </div>
         </div>
       </dialog>

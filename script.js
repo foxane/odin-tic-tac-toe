@@ -1,12 +1,18 @@
 "use strict";
-document.querySelector("dialog").classList.add("hidden");
 
 // Modules
 const createPlayer = function (name, marker) {
+  let score = 0;
   const getName = () => name;
   const getMarker = () => marker;
-  return { getName, getMarker };
+  const addScore = () => score++;
+  const getScore = () => score;
+
+  return { addScore, getScore, getName, getMarker };
 };
+
+// Put in global so it dont get affected by game
+const players = [createPlayer("player1", "x"), createPlayer("player2", "o")];
 
 const gameBoard = (function () {
   let board;
@@ -47,16 +53,20 @@ const gameHandler = (function () {
   // PLayer will be indexed based on turn
   let turn = 0;
   let status = "running";
-  const score = [0, 0];
 
   const resetTurn = () => (turn = 0);
   const getTurn = () => turn;
   const switchTurn = () => (turn === 0 ? turn++ : turn--);
   const setStatus = (newStatus) => (status = newStatus);
   const getStatus = () => status;
-  const addScore = (winnerIndex) => score[winnerIndex]++;
-  const handleDraw = () => console.log("draw");
-  const handleWin = () => console.log("win");
+  const handleDraw = () => {
+    domHandler.renderDialog("draw");
+  };
+  const handleWin = (currentPlayer, players) => {
+    currentPlayer.addScore();
+    domHandler.renderScore(players);
+    domHandler.renderDialog("win", currentPlayer);
+  };
   const inputControl = (position) => {
     if (gameBoard.getBoard()[position] === null) {
       gameFlow.playTurn(position);
@@ -70,7 +80,6 @@ const gameHandler = (function () {
     getTurn,
     setStatus,
     getStatus,
-    addScore,
     handleDraw,
     handleWin,
   };
@@ -78,10 +87,28 @@ const gameHandler = (function () {
 
 const domHandler = (function () {
   const cells = document.querySelectorAll(".cell");
-  const render = () => {
+  const scores = document.querySelectorAll(".score");
+  const dialog = document.querySelector("dialog");
+  const renderBoard = () => {
     for (const [i, mark] of gameBoard.getBoard().entries()) {
-      cells[i].style.backgroundImage = `url(./images/${mark}.png)`;
+      cells[i].textContent = mark;
     }
+  };
+  const renderScore = (playerArr) => {
+    for (const [i, score] of scores.entries()) {
+      score.textContent = playerArr[i].getScore();
+      console.log(playerArr[i].getScore());
+    }
+  };
+  const renderDialog = (status, winner) => {
+    if (status === "draw") {
+      document.querySelector("#status").textContent = "DRAW!";
+    } else {
+      document.querySelector("#status").textContent = `${winner
+        .getName()
+        .toUpperCase()} WINS!`;
+    }
+    dialog.classList.remove("hidden");
   };
 
   // Click listener
@@ -90,14 +117,27 @@ const domHandler = (function () {
       gameHandler.inputControl(Number(e.target.getAttribute("id")));
     });
   });
+  document.querySelector("#dialog-btn").addEventListener("click", () => {
+    gameFlow.gameInit();
+    dialog.classList.add("hidden");
+  });
+  dialog.addEventListener("click", () => {
+    gameFlow.gameInit();
+    dialog.classList.add("hidden");
+  });
 
-  return { render };
+  return { renderDialog, renderBoard, renderScore };
 })();
 
 // Procedure control
 const gameFlow = (function () {
   // Initialize game
-  // TOBE ADDED
+  const gameInit = () => {
+    gameBoard.resetBoard();
+    gameHandler.resetTurn();
+    gameHandler.setStatus("running");
+    domHandler.renderBoard();
+  };
 
   // Each turn controller
   // Play turn will be called by input control that called by click listener
@@ -105,18 +145,15 @@ const gameFlow = (function () {
     if (gameHandler.getStatus() === "over") return;
 
     // PLayer plyernfo
-    const players = [
-      createPlayer("player1", "x"),
-      createPlayer("player2", "o"),
-    ];
+
     let currentPlayer = players[gameHandler.getTurn()];
 
     // Main logic
     gameBoard.addMarker(position, currentPlayer.getMarker());
-    domHandler.render();
+    domHandler.renderBoard();
     if (gameBoard.checkWin()) {
       gameHandler.setStatus("over");
-      gameHandler.handleWin();
+      gameHandler.handleWin(currentPlayer, players);
     } else if (gameBoard.checkDraw()) {
       gameHandler.setStatus("over");
       gameHandler.handleDraw();
@@ -125,5 +162,5 @@ const gameFlow = (function () {
     }
   };
 
-  return { playTurn };
+  return { gameInit, playTurn };
 })();
