@@ -10,7 +10,7 @@ const createPlayer = function (name, marker) {
 
 const gameBoard = (function () {
   let board;
-  const winCon = [
+  const WINCON = [
     [0, 1, 2],
     [3, 4, 5],
     [6, 7, 8],
@@ -25,7 +25,7 @@ const gameBoard = (function () {
   const getBoard = () => board;
   const resetBoard = () => (board = Array.from({ length: 9 }, () => null));
   const addMarker = (pos, mark) => (board[pos] = mark);
-  const checkDraw = () => () => board.every((el) => el !== null);
+  const checkDraw = () => board.every((el) => el !== null);
   const checkWin = () => {
     for (const [a, b, c] of WINCON) {
       if (
@@ -50,8 +50,10 @@ const gameHandler = (function () {
   const score = [0, 0];
 
   const resetTurn = () => (turn = 0);
+  const getTurn = () => turn;
   const switchTurn = () => (turn === 0 ? turn++ : turn--);
   const setStatus = (newStatus) => (status = newStatus);
+  const getStatus = () => status;
   const addScore = (winnerIndex) => score[winnerIndex]++;
   const handleDraw = () => console.log("draw");
   const handleWin = () => console.log("win");
@@ -65,7 +67,9 @@ const gameHandler = (function () {
     inputControl,
     resetTurn,
     switchTurn,
+    getTurn,
     setStatus,
+    getStatus,
     addScore,
     handleDraw,
     handleWin,
@@ -80,7 +84,7 @@ const domHandler = (function () {
     }
   };
 
-  // Event listener
+  // Click listener
   cells.forEach((cell) => {
     cell.addEventListener("click", function (e) {
       gameHandler.inputControl(Number(e.target.getAttribute("id")));
@@ -91,17 +95,35 @@ const domHandler = (function () {
 })();
 
 // Procedure control
-const gameFlow = function () {
+const gameFlow = (function () {
   // Initialize game
   // TOBE ADDED
 
   // Each turn controller
+  // Play turn will be called by input control that called by click listener
   const playTurn = (position) => {
-    // TOBE ADDED
+    if (gameHandler.getStatus() === "over") return;
+
+    // PLayer plyernfo
+    const players = [
+      createPlayer("player1", "x"),
+      createPlayer("player2", "o"),
+    ];
+    let currentPlayer = players[gameHandler.getTurn()];
+
+    // Main logic
     gameBoard.addMarker(position, currentPlayer.getMarker());
     domHandler.render();
-    gameBoard.checkWin();
-    gameBoard.checkDraw();
-    console.log(gameBoard.getBoard());
+    if (gameBoard.checkWin()) {
+      gameHandler.setStatus("over");
+      gameHandler.handleWin();
+    } else if (gameBoard.checkDraw()) {
+      gameHandler.setStatus("over");
+      gameHandler.handleDraw();
+    } else {
+      gameHandler.switchTurn();
+    }
   };
-};
+
+  return { playTurn };
+})();
