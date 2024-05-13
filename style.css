@@ -11,19 +11,39 @@ body {
   align-items: center;
   justify-content: center;
 }
+.players {
+  position: absolute;
+  right: 105%;
+  top: 0;
+  background-color: #686868;
+  width: 15rem;
+  height: 13rem;
+  font-size: 1.2rem;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  row-gap: 10px;
+  align-items: center;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.players button {
+  margin-top: 20px;
+  padding: 5px 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: #9b9b9b;
+  border: 1px solid white;
+  border-radius: 5px;
+  cursor: pointer;
+}
 .game {
+  position: relative;
   background-color: #686868;
   color: black;
   border-radius: 10px;
   padding: 10px 40px 30px;
   text-align: center;
-}
-.game-header {
-  display: grid;
-  grid-template-columns: 1fr 200px;
-}
-h1 {
-  align-self: center;
 }
 .cells {
   border: 4px double black;
