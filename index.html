@@ -6,42 +6,38 @@
     <title>Tik Tak Toe</title>
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
+  <body class="center-item">
     <div class="game">
       <div class="game-header">
         <h1>Tic Tac Toe</h1>
-        <div class="players">
+        <div class="players center-item">
           <h2>Scores</h2>
           <p>
             <span id="p1-name">Player 1</span>
 
-            <strong>
-              : <span id="player-score-1" class="score">10</span></strong
-            >
+            <strong> : <span id="player-score-1" class="score">0</span></strong>
           </p>
           <p>
             <span id="p2-name">Player 2</span>
-            <strong>
-              : <span id="player-score-2" class="score">20</span></strong
-            >
+            <strong> : <span id="player-score-2" class="score">0</span></strong>
           </p>
           <button id="change-name">Change Name</button>
         </div>
       </div>
-      <div class="cells">
-        <div class="cell" id="0"></div>
-        <div class="cell" id="1"></div>
-        <div class="cell" id="2"></div>
-        <div class="cell" id="3"></div>
-        <div class="cell" id="4"></div>
-        <div class="cell" id="5"></div>
-        <div class="cell" id="6"></div>
-        <div class="cell" id="7"></div>
-        <div class="cell" id="8"></div>
+      <div class="cells center-item">
+        <div class="cell center-item" id="0"></div>
+        <div class="cell center-item" id="1"></div>
+        <div class="cell center-item" id="2"></div>
+        <div class="cell center-item" id="3"></div>
+        <div class="cell center-item" id="4"></div>
+        <div class="cell center-item" id="5"></div>
+        <div class="cell center-item" id="6"></div>
+        <div class="cell center-item" id="7"></div>
+        <div class="cell center-item" id="8"></div>
       </div>
     </div>
     <aside>
-      <dialog class="hidden">
+      <dialog class="hidden center-item">
         <div class="content">
           <p id="status">Player wins!</p>
           <div class="dialog-buttons">
@@ -49,8 +45,8 @@
           </div>
         </div>
       </dialog>
-      <div class="new-name-modal hidden">
-        <div class="content">
+      <div class="new-name-modal hidden center-item">
+        <div class="content center-item">
           <h2>Enter new name</h2>
           <label for="p1-new"
             ><span class="new-name-label">Player 1</span>

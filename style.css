@@ -3,14 +3,18 @@
   margin: 0;
   box-sizing: border-box;
 }
-body {
-  background-color: black;
-  width: 100%;
-  min-height: 100vh;
+.center-item {
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
+body {
+  background-color: black;
+  width: 100%;
+  min-height: 100vh;
+}
+
 .players {
   position: absolute;
   right: 105%;
@@ -19,13 +23,36 @@ body {
   width: 15rem;
   height: 13rem;
   font-size: 1.2rem;
-  display: flex;
   flex-flow: column nowrap;
-  justify-content: center;
   row-gap: 10px;
-  align-items: center;
-  border-radius: 10px;
   overflow: hidden;
+  transition: border-radius 0.25s;
+  border: 1px solid white;
+  border-radius: 10px;
+}
+.players:hover {
+  border-radius: 20px;
+}
+.players::after {
+  content: "";
+  height: 0;
+  width: 0;
+  border: 0px double white;
+  background-color: transparent;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.5s;
+}
+.players:hover::after {
+  height: 95%;
+  width: 95%;
+  border: 1px solid white;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(180deg);
+  border-radius: 20px;
 }
 .players button {
   margin-top: 10px;
@@ -50,20 +77,13 @@ body {
   height: 510px;
   width: 510px;
   margin: 10px auto;
-  display: flex;
   flex-flow: row wrap;
-  justify-content: center;
-  align-items: center;
 }
 .cell {
   height: calc(500px / 3);
   width: calc(500px / 3);
   background-color: #686868;
   border: 1px dotted black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-position: center;
 }
 
 /* Modal */
@@ -74,9 +94,6 @@ dialog {
   width: 100%;
   height: 100vh;
   background-color: hsla(0, 0%, 15%, 0.822);
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 dialog .content {
   min-width: 400px;
@@ -95,10 +112,6 @@ dialog .content {
   text-shadow: 5px 5px 5px rgb(133, 133, 133);
   color: rgb(0, 0, 0);
 }
-.dialog-buttons {
-  display: flex;
-  gap: 20px;
-}
 .dialog-buttons button {
   width: 150px;
   padding: 0.5em 0;
@@ -114,18 +127,12 @@ dialog .content {
   background-color: rgba(27, 27, 27, 0.651);
   width: 100vw;
   height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 .new-name-modal .content {
   min-width: 400px;
   min-height: 220px;
   background-color: grey;
-  display: flex;
   flex-flow: column nowrap;
-  justify-content: center;
-  align-items: center;
   gap: 25px;
 }
 .content label {
