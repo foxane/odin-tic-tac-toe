@@ -1,9 +1,165 @@
-.cell {
-  width: 20px;
-  height: 20px;
-  border: 1px solid;
+@import url("https://fonts.googleapis.com/css2?family=Jersey+15&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Permanent+Marker&display=swap");
+:root {
+  --ff-header: "Jersey 15", Arial, serif;
+  --ff-body: "Josefin Sans", Arial, serif;
+  --ff-cell: "Permanent Marker", Arial serif;
+  --fs-body: 1.3rem;
+
+  --clr-bg: black;
+  --clr-text: white;
+  --clr-accent: hsl(37, 98%, 70%);
+
+  --clr-border-btn: #ffdd9d;
+
+  --grad-player: linear-gradient(140deg, var(--clr-accent), #e4e4e4);
 }
-img {
+button {
+  font-size: calc(var(--fs-body) - 0.3rem);
+  font-weight: 600;
+}
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body {
+  background-color: var(--clr-bg);
+  color: var(--clr-text);
+  font-family: var(--ff-body);
+  font-size: var(--fs-body);
+
   width: 100%;
-  height: auto;
+  height: 100vh;
+
+  display: grid;
+  grid-template-rows: max-content 1fr 3rem;
+  justify-items: center;
+}
+header {
+  color: var(--clr-accent);
+  font-family: var(--ff-header);
+  font-size: calc(var(--fs-body) + 1rem);
+
+  width: 100%;
+  padding: 10px;
+
+  text-align: center;
+}
+main {
+  position: relative;
+  place-self: center;
+}
+
+/* || SCORES */
+.player-info {
+  background-color: black;
+  border-radius: 10% 20% 10% 10%;
+
+  width: 12rem;
+  height: 12rem;
+  padding: 0 20px 10px 20px;
+
+  display: grid;
+  grid-template-rows: repeat(4, 1fr);
+
+  position: absolute;
+  right: 105%;
+}
+.player-info::before {
+  background-image: var(--grad-player);
+  border-radius: 10%;
+
+  width: 102%;
+  height: 102%;
+
+  content: "";
+
+  display: block;
+  position: absolute;
+  top: -1%;
+  left: -1%;
+  z-index: -1;
+}
+.player-info h3 {
+  font-family: var(--ff-header);
+  font-size: calc(var(--fs-body) + 1rem);
+  color: var(--clr-accent);
+
+  padding: 10px;
+
+  text-align: center;
+}
+.player-info p {
+  display: flex;
+  justify-content: space-between;
+}
+.player-info button {
+  background-color: var(--clr-accent);
+  border: 2px solid var(--clr-border-btn);
+  border-radius: 4px;
+
+  padding: 0.25em 0.5em;
+  place-self: center;
+}
+
+/* || BOARD */
+.board {
+  background: var(--grad-player);
+  border-radius: 10%;
+
+  width: 610px;
+  height: 610px;
+
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  align-items: center;
+
+  box-sizing: content-box;
+}
+.cell {
+  background-color: rgb(0, 0, 0);
+  font-size: 15rem;
+  font-family: var(--ff-body);
+  color: transparent;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 200px;
+  height: 200px;
+
+  transition: color 0.5s;
+}
+.cell:nth-child(1) {
+  border-radius: 30% 0 0 0;
+}
+.cell:nth-child(3) {
+  border-radius: 0 30% 0 0;
+}
+.cell:nth-child(7) {
+  border-radius: 0 0 0 30%;
+}
+.cell:nth-child(9) {
+  border-radius: 0 0 30% 0;
+}
+
+/* || FOOTER */
+footer {
+  font-family: var(--ff-header);
+}
+a:any-link {
+  text-decoration: none;
+  color: var(--clr-accent);
+}
+a:hover {
+  filter: brightness(200%);
+}
+
+.hidden {
+  display: none;
+}
+.modals {
+  position: absolute;
 }

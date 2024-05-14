@@ -91,10 +91,10 @@ const domHandler = (function () {
   const scores = document.querySelectorAll(".score");
   const dialog = document.querySelector("dialog");
   const newNameModal = document.querySelector(".new-name-modal");
-  const p1Name = document.getElementById("p1-name");
-  const p2Name = document.getElementById("p2-name");
-  const p1NewName = document.getElementById("p1-new");
-  const p2NewName = document.getElementById("p2-new");
+  const p1Name = document.querySelector(".p1-name");
+  const p2Name = document.querySelector(".p2-name");
+  const p1NewName = document.querySelector(".p1-new");
+  const p2NewName = document.querySelector(".p2-new");
   const renderName = () => {
     p1Name.textContent = players[0].getName();
     p2Name.textContent = players[1].getName();
@@ -102,9 +102,11 @@ const domHandler = (function () {
   const renderBoard = () => {
     for (const [i, mark] of gameBoard.getBoard().entries()) {
       if (mark === null) {
-        cells[i].innerHTML = ``;
+        cells[i].textContent = ``;
       } else {
-        cells[i].innerHTML = `<img src="./images/${mark}.png">`;
+        cells[i].textContent = mark;
+        cells[i].style.color = "var(--clr-accent)";
+        cells[i].style.transform = "rotate(360deg)";
       }
     }
   };
@@ -116,9 +118,9 @@ const domHandler = (function () {
   };
   const renderDialog = (status, winner) => {
     if (status === "draw") {
-      document.querySelector("#status").textContent = "DRAW!";
+      document.querySelector(".status").textContent = "DRAW!";
     } else {
-      document.querySelector("#status").textContent = `${winner
+      document.querySelector(".status").textContent = `${winner
         .getName()
         .toUpperCase()} WINS!`;
     }
@@ -131,7 +133,7 @@ const domHandler = (function () {
       gameHandler.inputControl(Number(e.target.getAttribute("id")));
     });
   });
-  document.querySelector("#dialog-btn").addEventListener("click", () => {
+  document.querySelector(".dialog-btn").addEventListener("click", () => {
     gameFlow.gameInit();
     dialog.classList.add("hidden");
   });
@@ -139,10 +141,10 @@ const domHandler = (function () {
     gameFlow.gameInit();
     dialog.classList.add("hidden");
   });
-  document.querySelector("#change-name").addEventListener("click", () => {
+  document.querySelector(".change-name").addEventListener("click", () => {
     newNameModal.classList.remove("hidden");
   });
-  document.querySelector("#cn-confirm").addEventListener("click", (e) => {
+  document.querySelector(".cn-confirm").addEventListener("click", (e) => {
     e.preventDefault();
     if (p1NewName.value && p2NewName.value) {
       players[0].setName(p1NewName.value);

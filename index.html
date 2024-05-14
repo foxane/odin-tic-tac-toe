@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tik Tak Toe</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="shortcut icon" href="images/o.png" type="image/x-icon" />
+  </head>
+  <body>
+    <header>
+      <h1>Tic Tac Toe</h1>
+    </header>
+    <main>
+      <section class="player-info">
+        <h3>Scores</h3>
+        <p>
+          <span class="p1-name">Player 1</span>
+          <strong><span class="scores">0</span></strong>
+        </p>
+        <p>
+          <span class="p2-name">Player 2</span>
+          <strong><span class="scores">0</span></strong>
+        </p>
+        <button type="button" class="change-name">Change Name</button>
+      </section>
+      <section class="board">
+        <div class="cell" id="0"></div>
+        <div class="cell" id="1"></div>
+        <div class="cell" id="2"></div>
+        <div class="cell" id="3"></div>
+        <div class="cell" id="4"></div>
+        <div class="cell" id="5"></div>
+        <div class="cell" id="6"></div>
+        <div class="cell" id="7"></div>
+        <div class="cell" id="8"></div>
+      </section>
+      <div class="modals">
+        <dialog>
+          <h2 class="status"></h2>
+          <button type="button" class="dialog-btn">Confirm</button>
+        </dialog>
+        <div class="new-name-modal">
+          <h3>Enter new name</h3>
+          <label>
+            <span class="label-text">Player 1</span>
+            <input type="text p1-new" required />
+          </label>
+          <label>
+            <span class="label-text">Player 2</span>
+            <input type="text p2-new" required />
+          </label>
+          <button type="submit" class="cn-confirm">Confirm</button>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <p>
+        <a
+          href="http://github.com/foxane"
+          target="_blank"
+          rel="noopener noreferrer"
+          >foxane</a
+        >
+        @
+        <a
+          href="http://theodinproject.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          >The Odin Project</a
+        >
+      </p>
+    </footer>
+    <script src="script.js"></script>
+  </body>
+</html>
