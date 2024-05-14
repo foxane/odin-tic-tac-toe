@@ -1,0 +1,157 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+.center-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body {
+  background-color: black;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.players {
+  position: absolute;
+  right: 105%;
+  top: 0;
+  background-color: #686868;
+  width: 15rem;
+  height: 13rem;
+  font-size: 1.2rem;
+  flex-flow: column nowrap;
+  row-gap: 10px;
+  overflow: hidden;
+  transition: border-radius 0.25s;
+  border: 1px solid white;
+  border-radius: 10px;
+}
+.players:hover {
+  border-radius: 20px;
+}
+.players::after {
+  content: "";
+  height: 0;
+  width: 0;
+  border: 0px double white;
+  background-color: transparent;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.5s;
+}
+.players:hover::after {
+  height: 95%;
+  width: 95%;
+  border: 1px solid white;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(180deg);
+  border-radius: 20px;
+}
+.players button {
+  margin-top: 10px;
+  padding: 5px 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: #9b9b9b;
+  border: 1px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.game {
+  position: relative;
+  background-color: #686868;
+  color: black;
+  border-radius: 10px;
+  padding: 10px 40px 30px;
+  text-align: center;
+}
+.cells {
+  border: 4px double black;
+  height: 510px;
+  width: 510px;
+  margin: 10px auto;
+  flex-flow: row wrap;
+}
+.cell {
+  height: calc(500px / 3);
+  width: calc(500px / 3);
+  background-color: #686868;
+  border: 1px dotted black;
+}
+
+/* Modal */
+
+dialog {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: hsla(0, 0%, 15%, 0.822);
+}
+dialog .content {
+  min-width: 400px;
+  min-height: 200px;
+  background-color: #b9b8b8;
+  border: 5px double white;
+  border-radius: 10px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-evenly;
+  align-items: center;
+}
+#status {
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-shadow: 5px 5px 5px rgb(133, 133, 133);
+  color: rgb(0, 0, 0);
+}
+.dialog-buttons button {
+  width: 150px;
+  padding: 0.5em 0;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+/*  CN modal */
+.new-name-modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(27, 27, 27, 0.651);
+  width: 100vw;
+  height: 100vh;
+}
+.new-name-modal .content {
+  min-width: 400px;
+  min-height: 220px;
+  background-color: grey;
+  flex-flow: column nowrap;
+  gap: 25px;
+}
+.content label {
+  width: 200px;
+  position: relative;
+}
+#cn-confirm {
+  padding: 5px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.new-name-label {
+  position: absolute;
+  bottom: 100%;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+/* Util */
+.hidden {
+  display: none;
+}
