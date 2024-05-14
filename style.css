@@ -1,8 +1,8 @@
-@import url("https://fonts.googleapis.com/css2?family=Jersey+15&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Permanent+Marker&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Indie+Flower&family=Jersey+15&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Permanent+Marker&display=swap");
 :root {
   --ff-header: "Jersey 15", Arial, serif;
   --ff-body: "Josefin Sans", Arial, serif;
-  --ff-cell: "Permanent Marker", Arial serif;
+  --ff-cell: "Indie Flower", Arial serif;
   --fs-body: 1.3rem;
 
   --clr-bg: black;
@@ -118,9 +118,9 @@ main {
   box-sizing: content-box;
 }
 .cell {
-  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0);
   font-size: 15rem;
-  font-family: var(--ff-body);
+  font-family: var(--ff-cell);
   color: transparent;
 
   display: flex;
@@ -130,18 +130,23 @@ main {
   width: 200px;
   height: 200px;
 
-  transition: color 0.5s;
+  transition: color 0.5s, transform 0.5s;
 }
-.cell:nth-child(1) {
+.cell-bg {
+  width: 200px;
+  height: 200px;
+  background-color: black;
+}
+.cell-bg:nth-child(1) {
   border-radius: 30% 0 0 0;
 }
-.cell:nth-child(3) {
+.cell-bg:nth-child(3) {
   border-radius: 0 30% 0 0;
 }
-.cell:nth-child(7) {
+.cell-bg:nth-child(7) {
   border-radius: 0 0 0 30%;
 }
-.cell:nth-child(9) {
+.cell-bg:nth-child(9) {
   border-radius: 0 0 30% 0;
 }
 
@@ -156,6 +161,8 @@ a:any-link {
 a:hover {
   filter: brightness(200%);
 }
+
+/* || MODALS  */
 
 .hidden {
   display: none;

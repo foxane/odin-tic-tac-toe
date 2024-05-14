@@ -89,7 +89,7 @@ const gameHandler = (function () {
 const domHandler = (function () {
   const cells = document.querySelectorAll(".cell");
   const scores = document.querySelectorAll(".score");
-  const dialog = document.querySelector("dialog");
+  const dialog = document.querySelector(".win-notice");
   const newNameModal = document.querySelector(".new-name-modal");
   const p1Name = document.querySelector(".p1-name");
   const p2Name = document.querySelector(".p2-name");
@@ -99,15 +99,16 @@ const domHandler = (function () {
     p1Name.textContent = players[0].getName();
     p2Name.textContent = players[1].getName();
   };
-  const renderBoard = () => {
-    for (const [i, mark] of gameBoard.getBoard().entries()) {
-      if (mark === null) {
-        cells[i].textContent = ``;
-      } else {
-        cells[i].textContent = mark;
-        cells[i].style.color = "var(--clr-accent)";
-        cells[i].style.transform = "rotate(360deg)";
-      }
+  const renderBoard = (position) => {
+    cells[position].textContent = gameBoard.getBoard()[position].toUpperCase();
+    cells[position].style.color = "var(--clr-accent)";
+    cells[position].style.transform = `rotate(${Math.floor(
+      Math.random() * 360 + 1
+    )}deg)`;
+  };
+  const resetBoard = () => {
+    for (const cell of cells) {
+      cell.textContent = "";
     }
   };
   const renderScore = (playerArr) => {
@@ -158,7 +159,7 @@ const domHandler = (function () {
     }
   });
 
-  return { renderDialog, renderBoard, renderScore };
+  return { renderDialog, renderBoard, resetBoard, renderScore };
 })();
 
 // Procedure control
@@ -168,7 +169,7 @@ const gameFlow = (function () {
     gameBoard.resetBoard();
     gameHandler.resetTurn();
     gameHandler.setStatus("running");
-    domHandler.renderBoard();
+    domHandler.resetBoard();
   };
 
   // Each turn controller
@@ -182,7 +183,7 @@ const gameFlow = (function () {
 
     // Main logic
     gameBoard.addMarker(position, currentPlayer.getMarker());
-    domHandler.renderBoard();
+    domHandler.renderBoard(position);
     if (gameBoard.checkWin()) {
       gameHandler.setStatus("over");
       gameHandler.handleWin(currentPlayer, players);
