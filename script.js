@@ -1,6 +1,7 @@
-"use strict";
+"use strict"; // Idk what this does but why not
 
-// Modules
+/* Most if not all of the modules only return method */
+
 const createPlayer = function (name, marker) {
   let score = 0;
   const getName = () => name;
@@ -13,9 +14,7 @@ const createPlayer = function (name, marker) {
   return { setName, addScore, getScore, resetScore, getName, getMarker };
 };
 
-// Put in global so it dont get affected by game
-const players = [createPlayer("player 1", "x"), createPlayer("player 2", "o")];
-
+// Gameboard handle anything that happens in board, not the UI board, we have UI board at home
 const gameBoard = (function () {
   let board;
   const WINCON = [
@@ -29,15 +28,14 @@ const gameBoard = (function () {
     [2, 4, 6],
   ];
 
-  // Gameboard methods
   const getBoard = () => board;
-  const resetBoard = () => (board = Array.from({ length: 9 }, () => null));
-  const addMarker = (pos, mark) => (board[pos] = mark);
-  const checkDraw = () => board.every((el) => el !== null);
+  const resetBoard = () => (board = Array.from({ length: 9 }, () => null)); // Take every value inside board and turn them into null
+  const addMarker = (position, mark) => (board[position] = mark);
+  const checkDraw = () => board.every((el) => el !== null); // Check if every value inside array is not null (or marked by player)
   const checkWin = () => {
     for (const [a, b, c] of WINCON) {
       if (
-        board[a] !== null && // Empty cell wont be counted
+        board[a] !== null && // Null will be ignored
         board[a] === board[b] &&
         board[b] === board[c]
       ) {
@@ -51,8 +49,13 @@ const gameBoard = (function () {
   return { getBoard, resetBoard, addMarker, checkDraw, checkDraw, checkWin };
 })();
 
+// Game handler control overall state of game (players, cell click handler, etc)
 const gameHandler = (function () {
-  // PLayer will be indexed based on turn
+  const players = [
+    createPlayer("player 1", "x"),
+    createPlayer("player 2", "o"),
+  ];
+
   let turn = 0;
   let status = "running";
 
@@ -61,16 +64,18 @@ const gameHandler = (function () {
   const switchTurn = () => (turn === 0 ? turn++ : turn--);
   const setStatus = (newStatus) => (status = newStatus);
   const getStatus = () => status;
+  // Draw and win handler does not do any logic, they only call functions
   const handleDraw = () => {
-    domHandler.renderDialog("draw");
+    domHandler.renderWinModal("draw");
   };
-  const handleWin = (currentPlayer, players, winCell) => {
+  const handleWin = (currentPlayer, players) => {
     currentPlayer.addScore();
     domHandler.renderScore(players);
-    domHandler.renderDialog("win", currentPlayer);
+    domHandler.renderWinModal("win", currentPlayer);
   };
   const inputControl = (position) => {
     if (gameBoard.getBoard()[position] === null) {
+      // Is clicked cell not marked?
       gameFlow.playTurn(position);
     }
   };
@@ -84,21 +89,23 @@ const gameHandler = (function () {
     getStatus,
     handleDraw,
     handleWin,
+    players,
   };
 })();
 
 // DOM Handler
+// yeh yeh yeh dom do this, dom do that. I DOM WHAT I WANT kll me..
 const domHandler = (function () {
-  const cells = document.querySelectorAll(".cell");
-  const scores = document.querySelectorAll(".scores");
-  const dialog = document.querySelector(".win-notice");
+  const cellElArray = document.querySelectorAll(".cell");
+  const scoreElArray = document.querySelectorAll(".scores");
+  const winModal = document.querySelector(".win-notice");
   const newNameModal = document.querySelector(".new-name-modal");
   const modalOverlay = document.querySelector(".modals");
   const p1Name = document.querySelector(".p1-name");
   const p2Name = document.querySelector(".p2-name");
   const p1NewName = document.querySelector(".p1-new");
   const p2NewName = document.querySelector(".p2-new");
-  const dialogBtn = document.querySelector(".dialog-btn");
+  const winBtn = document.querySelector(".dialog-btn");
   const showBoardBtn = document.querySelector(".show-board");
   const changeNameBtn = document.querySelector(".change-name");
   const confirmBtn = document.querySelector(".cn-confirm");
@@ -107,59 +114,64 @@ const domHandler = (function () {
   const restartBtn = document.querySelector(".restart");
 
   const renderName = () => {
-    p1Name.textContent = players[0].getName();
-    p2Name.textContent = players[1].getName();
+    p1Name.textContent = gameHandler.players[0].getName();
+    p2Name.textContent = gameHandler.players[1].getName();
   };
 
   const renderBoard = (position) => {
-    cells[position].textContent = gameBoard.getBoard()[position].toUpperCase();
-    cells[position].style.color = "var(--clr-accent)";
-    cells[position].style.transform = `rotate(${Math.floor(
+    cellElArray[position].textContent = gameBoard
+      .getBoard()
+      [position].toUpperCase();
+    cellElArray[position].style.color = "var(--clr-accent)";
+    cellElArray[position].style.transform = `rotate(${Math.floor(
       Math.random() * 360 - 180
     )}deg)`;
   };
 
   const resetBoard = () => {
-    for (const cell of cells) {
+    for (let cell of cellElArray) {
       cell.textContent = "";
       cell.classList.remove("used-cell");
       cell.style.transform = "rotate(0)";
+      cell.style.color = "transparent";
+      gameBoard.resetBoard();
     }
   };
 
   const renderScore = (playerArr) => {
-    for (const [i, score] of scores.entries()) {
+    for (const [i, score] of scoreElArray.entries()) {
       score.textContent = playerArr[i].getScore();
     }
   };
 
-  const renderDialog = (status, winner) => {
+  const renderWinModal = (status, winner) => {
     if (status === "draw") {
-      dialog.querySelector(".status").textContent = "DRAW!";
+      winModal.querySelector(".status").textContent = "DRAW!";
     } else {
-      dialog.querySelector(".status").textContent = `${winner
+      winModal.querySelector(".status").textContent = `${winner
         .getName()
         .toUpperCase()} WINS!`;
     }
-    dialog.classList.remove("hidden");
+    winModal.classList.remove("hidden");
     modalOverlay.classList.remove("hidden");
   };
 
   // Click event listeners
-  cells.forEach((cell) => {
+  // Is there better way than doing these? Waiting for your wisdom sir
+  cellElArray.forEach((cell) => {
     cell.addEventListener("click", function (e) {
       gameHandler.inputControl(Number(e.target.getAttribute("id")));
     });
   });
 
-  dialogBtn.addEventListener("click", () => {
+  winBtn.addEventListener("click", () => {
     gameFlow.gameInit();
-    dialog.classList.add("hidden");
+    winModal.classList.add("hidden");
     modalOverlay.classList.add("hidden");
   });
 
   showBoardBtn.addEventListener("click", () => {
-    dialog.classList.add("hidden");
+    winModal.classList.add("hidden");
     modalOverlay.classList.add("hidden");
   });
 
@@ -170,9 +182,10 @@ const domHandler = (function () {
 
   confirmBtn.addEventListener("click", (e) => {
     e.preventDefault();
+    // Prevent execute when input is empty
     if (p1NewName.value && p2NewName.value) {
-      players[0].setName(p1NewName.value);
-      players[1].setName(p2NewName.value);
+      gameHandler.players[0].setName(p1NewName.value);
+      gameHandler.players[1].setName(p2NewName.value);
       p1NewName.value = "";
       p2NewName.value = "";
       renderName();
@@ -196,39 +209,34 @@ const domHandler = (function () {
 
   restartBtn.addEventListener("click", () => {
     gameFlow.gameInit();
-    players[0].resetScore();
-    players[1].resetScore();
-    renderScore(players);
+    gameHandler.players[0].resetScore();
+    gameHandler.players[1].resetScore();
+    renderScore(gameHandler.players);
   });
 
-  return { renderDialog, renderBoard, resetBoard, renderScore };
+  return { renderWinModal, renderBoard, resetBoard, renderScore };
 })();
 
-// Procedure control
+// Game Flow
 const gameFlow = (function () {
-  // Initialize game
+  // Reset all game state except for player array
   const gameInit = () => {
-    gameBoard.resetBoard();
     gameHandler.resetTurn();
     gameHandler.setStatus("running");
     domHandler.resetBoard();
   };
 
-  // Each turn controller
-  // Play turn will be called by input control that called by click listener
+  // Execute each time user clicked valid cell
   const playTurn = (position) => {
-    if (gameHandler.getStatus() === "over") return;
+    if (gameHandler.getStatus() === "over") return; // Disabled when game is not initialized
+    let currentPlayer = gameHandler.players[gameHandler.getTurn()]; // Player is indexed based on turn
 
-    // PLayer plyernfo
-
-    let currentPlayer = players[gameHandler.getTurn()];
-
-    // Main logic
     gameBoard.addMarker(position, currentPlayer.getMarker());
     domHandler.renderBoard(position);
+
     if (gameBoard.checkWin()) {
       gameHandler.setStatus("over");
-      gameHandler.handleWin(currentPlayer, players);
+      gameHandler.handleWin(currentPlayer, gameHandler.players);
     } else if (gameBoard.checkDraw()) {
       gameHandler.setStatus("over");
       gameHandler.handleDraw();
@@ -239,3 +247,5 @@ const gameFlow = (function () {
 
   return { gameInit, playTurn };
 })();
+
+// I thinks that's it,
