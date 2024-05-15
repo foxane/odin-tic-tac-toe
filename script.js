@@ -88,9 +88,10 @@ const gameHandler = (function () {
 
 const domHandler = (function () {
   const cells = document.querySelectorAll(".cell");
-  const scores = document.querySelectorAll(".score");
+  const scores = document.querySelectorAll(".scores");
   const dialog = document.querySelector(".win-notice");
   const newNameModal = document.querySelector(".new-name-modal");
+  const modalOverlay = document.querySelector(".modals");
   const p1Name = document.querySelector(".p1-name");
   const p2Name = document.querySelector(".p2-name");
   const p1NewName = document.querySelector(".p1-new");
@@ -103,12 +104,13 @@ const domHandler = (function () {
     cells[position].textContent = gameBoard.getBoard()[position].toUpperCase();
     cells[position].style.color = "var(--clr-accent)";
     cells[position].style.transform = `rotate(${Math.floor(
-      Math.random() * 360 + 1
-    )}deg)`;
+      Math.random() * 360 - 180
+    )}deg)`; // Generate random positive or negative
   };
   const resetBoard = () => {
     for (const cell of cells) {
       cell.textContent = "";
+      cell.classList.remove("used-cell");
     }
   };
   const renderScore = (playerArr) => {
@@ -126,6 +128,7 @@ const domHandler = (function () {
         .toUpperCase()} WINS!`;
     }
     dialog.classList.remove("hidden");
+    modalOverlay.classList.remove("hidden");
   };
 
   // Click listener
@@ -137,13 +140,11 @@ const domHandler = (function () {
   document.querySelector(".dialog-btn").addEventListener("click", () => {
     gameFlow.gameInit();
     dialog.classList.add("hidden");
-  });
-  dialog.addEventListener("click", () => {
-    gameFlow.gameInit();
-    dialog.classList.add("hidden");
+    modalOverlay.classList.add("hidden");
   });
   document.querySelector(".change-name").addEventListener("click", () => {
     newNameModal.classList.remove("hidden");
+    modalOverlay.classList.remove("hidden");
   });
   document.querySelector(".cn-confirm").addEventListener("click", (e) => {
     e.preventDefault();
@@ -154,9 +155,16 @@ const domHandler = (function () {
       p2NewName.value = "";
       renderName();
       newNameModal.classList.add("hidden");
+      modalOverlay.classList.add("hidden");
     } else {
       alert("New names cannot be empty!");
     }
+  });
+  document.querySelector(".cn-cancel").addEventListener("click", () => {
+    p1NewName.value = "";
+    p2NewName.value = "";
+    newNameModal.classList.add("hidden");
+    modalOverlay.classList.add("hidden");
   });
 
   return { renderDialog, renderBoard, resetBoard, renderScore };

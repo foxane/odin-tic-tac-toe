@@ -131,6 +131,7 @@ main {
   height: 200px;
 
   transition: color 0.5s, transform 0.5s;
+  cursor: pointer;
 }
 .cell-bg {
   width: 200px;
@@ -168,5 +169,99 @@ a:hover {
   display: none;
 }
 .modals {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  background-color: rgba(128, 128, 128, 0.329);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modals > * {
+  background-color: var(--clr-bg);
+  border: 5px double var(--clr-accent);
+  border-radius: 10px;
+
+  width: 400px;
+  height: 300px;
+
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.modals > * > button {
+  background-color: var(--clr-accent);
+  padding: 0.2em 0.5em;
+  border-radius: 5px;
+  border: 2px solid var(--clr-bg);
+  cursor: pointer;
+}
+.modals > * > button:hover {
+  border: 2px solid var(--clr-accent);
+  background-color: var(--clr-border-btn);
+}
+.new-name-modal {
+  position: relative;
+  justify-content: space-between;
+  padding: 20px;
+}
+.new-name-modal .cn-cancel {
   position: absolute;
+  right: 5%;
+  font-family: var(--ff-header);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: rgb(66, 66, 66);
+}
+label {
+  position: relative;
+}
+label > span {
+  position: absolute;
+  bottom: 105%;
+  left: 0;
+  font-size: calc(var(--fs-body) - 20%);
+  font-weight: 800;
+
+  transition: color 1s;
+}
+input {
+  background-color: rgb(88, 88, 88);
+  border-bottom: 5px solid var(--clr-accent);
+  border-radius: 5px;
+  color: var(--clr-text);
+  font-style: var(--fs-body);
+  font-weight: 600;
+  border: none;
+
+  padding: 5px;
+  background-image: linear-gradient(
+    90deg,
+    var(--clr-accent),
+    var(--clr-accent)
+  );
+  background-size: 100% 0;
+  background-position: bottom;
+  background-repeat: no-repeat;
+  transition: background 0.25s, color 1s;
+}
+input:active,
+input:focus,
+input:hover {
+  background-size: 100% 100%;
+  color: black;
+}
+label:active,
+label:focus,
+label:focus-within,
+label:hover {
+  color: var(--clr-accent);
+}
+
+.hidden {
+  display: none;
 }

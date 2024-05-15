@@ -35,25 +35,28 @@
         <div class="cell-bg"><div class="cell" id="7"></div></div>
         <div class="cell-bg"><div class="cell" id="8"></div></div>
       </section>
-      <div class="modals">
-        <div class="win-notice">
+    </main>
+    <aside>
+      <div class="modals hidden">
+        <div class="win-notice modal hidden">
           <h2 class="status">Player win!</h2>
           <button type="button" class="dialog-btn">Confirm</button>
         </div>
-        <div class="new-name-modal">
+        <div class="new-name-modal modal hidden">
+          <button class="cn-cancel">x</button>
           <h3>Enter new name</h3>
           <label>
             <span class="label-text">Player 1</span>
-            <input type="text p1-new" required />
+            <input type="text" class="p1-new" required />
           </label>
           <label>
             <span class="label-text">Player 2</span>
-            <input type="text p2-new" required />
+            <input type="text" class="p2-new" required />
           </label>
           <button type="submit" class="cn-confirm">Confirm</button>
         </div>
       </div>
-    </main>
+    </aside>
     <footer>
       <p>
         <a
