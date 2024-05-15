@@ -87,6 +87,7 @@ const gameHandler = (function () {
   };
 })();
 
+// DOM Handler
 const domHandler = (function () {
   const cells = document.querySelectorAll(".cell");
   const scores = document.querySelectorAll(".scores");
@@ -97,17 +98,27 @@ const domHandler = (function () {
   const p2Name = document.querySelector(".p2-name");
   const p1NewName = document.querySelector(".p1-new");
   const p2NewName = document.querySelector(".p2-new");
+  const dialogBtn = document.querySelector(".dialog-btn");
+  const showBoardBtn = document.querySelector(".show-board");
+  const changeNameBtn = document.querySelector(".change-name");
+  const confirmBtn = document.querySelector(".cn-confirm");
+  const cancelBtn = document.querySelector(".cn-cancel");
+  const startBtn = document.querySelector(".start");
+  const restartBtn = document.querySelector(".restart");
+
   const renderName = () => {
     p1Name.textContent = players[0].getName();
     p2Name.textContent = players[1].getName();
   };
+
   const renderBoard = (position) => {
     cells[position].textContent = gameBoard.getBoard()[position].toUpperCase();
     cells[position].style.color = "var(--clr-accent)";
     cells[position].style.transform = `rotate(${Math.floor(
       Math.random() * 360 - 180
-    )}deg)`; // Generate random positive or negative
+    )}deg)`;
   };
+
   const resetBoard = () => {
     for (const cell of cells) {
       cell.textContent = "";
@@ -115,17 +126,18 @@ const domHandler = (function () {
       cell.style.transform = "rotate(0)";
     }
   };
+
   const renderScore = (playerArr) => {
     for (const [i, score] of scores.entries()) {
       score.textContent = playerArr[i].getScore();
-      console.log(playerArr[i].getScore());
     }
   };
+
   const renderDialog = (status, winner) => {
     if (status === "draw") {
-      document.querySelector(".status").textContent = "DRAW!";
+      dialog.querySelector(".status").textContent = "DRAW!";
     } else {
-      document.querySelector(".status").textContent = `${winner
+      dialog.querySelector(".status").textContent = `${winner
         .getName()
         .toUpperCase()} WINS!`;
     }
@@ -133,26 +145,30 @@ const domHandler = (function () {
     modalOverlay.classList.remove("hidden");
   };
 
-  // Click listener
+  // Click event listeners
   cells.forEach((cell) => {
     cell.addEventListener("click", function (e) {
       gameHandler.inputControl(Number(e.target.getAttribute("id")));
     });
   });
-  document.querySelector(".dialog-btn").addEventListener("click", () => {
+
+  dialogBtn.addEventListener("click", () => {
     gameFlow.gameInit();
     dialog.classList.add("hidden");
     modalOverlay.classList.add("hidden");
   });
-  document.querySelector(".show-board").addEventListener("click", () => {
+
+  showBoardBtn.addEventListener("click", () => {
     dialog.classList.add("hidden");
     modalOverlay.classList.add("hidden");
   });
-  document.querySelector(".change-name").addEventListener("click", () => {
+
+  changeNameBtn.addEventListener("click", () => {
     newNameModal.classList.remove("hidden");
     modalOverlay.classList.remove("hidden");
   });
-  document.querySelector(".cn-confirm").addEventListener("click", (e) => {
+
+  confirmBtn.addEventListener("click", (e) => {
     e.preventDefault();
     if (p1NewName.value && p2NewName.value) {
       players[0].setName(p1NewName.value);
@@ -166,21 +182,23 @@ const domHandler = (function () {
       alert("New names cannot be empty!");
     }
   });
-  document.querySelector(".cn-cancel").addEventListener("click", () => {
+
+  cancelBtn.addEventListener("click", () => {
     p1NewName.value = "";
     p2NewName.value = "";
     newNameModal.classList.add("hidden");
     modalOverlay.classList.add("hidden");
   });
-  document.querySelector(".start").addEventListener("click", () => {
+
+  startBtn.addEventListener("click", () => {
     gameFlow.gameInit();
   });
-  document.querySelector(".restart").addEventListener("click", () => {
+
+  restartBtn.addEventListener("click", () => {
     gameFlow.gameInit();
     players[0].resetScore();
     players[1].resetScore();
-    domHandler.renderScore(players);
-    console.log("restart");
+    renderScore(players);
   });
 
   return { renderDialog, renderBoard, resetBoard, renderScore };
