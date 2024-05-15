@@ -13,7 +13,7 @@ const createPlayer = function (name, marker) {
 };
 
 // Put in global so it dont get affected by game
-const players = [createPlayer("player1", "x"), createPlayer("player2", "o")];
+const players = [createPlayer("player 1", "x"), createPlayer("player 2", "o")];
 
 const gameBoard = (function () {
   let board;
@@ -111,6 +111,7 @@ const domHandler = (function () {
     for (const cell of cells) {
       cell.textContent = "";
       cell.classList.remove("used-cell");
+      cell.style.transform = "rotate(0)";
     }
   };
   const renderScore = (playerArr) => {
