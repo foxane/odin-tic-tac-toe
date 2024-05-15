@@ -248,4 +248,4 @@ const gameFlow = (function () {
   return { gameInit, playTurn };
 })();
 
-// I thinks that's it,
+// I thinks that's it, thanks for being here ^^

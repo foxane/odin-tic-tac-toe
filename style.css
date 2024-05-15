@@ -11,8 +11,22 @@
   --clr-accent-2: hsl(0, 0%, 49%);
 
   --clr-border-btn: #ffdd9d;
+  --clr-border-footer: #b9a173;
 
-  --grad-player: linear-gradient(140deg, var(--clr-accent), #000000, #ffce46);
+  --grad-player: linear-gradient(
+    to bottom left,
+    var(--clr-accent),
+    #000000 20%,
+    #000000 80%,
+    #ffce46
+  );
+  --grad-board: linear-gradient(
+    140deg,
+    var(--clr-accent),
+    #000000 45%,
+    #000 55%,
+    #ffce46
+  );
 }
 button {
   font-size: calc(var(--fs-body) - 0.3rem);
@@ -39,20 +53,16 @@ body {
 }
 header {
   color: var(--clr-accent);
-
+  border-bottom: 2px solid var(--clr-border-footer);
   font-family: var(--ff-header);
   font-size: calc(var(--fs-body) + 1rem);
 
-  width: max-content;
+  width: 100%;
   padding: 10px;
 
   text-align: center;
   z-index: 1;
   animation: alternate title 2s ease infinite;
-}
-header:hover {
-  background: linear-gradient(to left, var(--clr-accent), var(--clr-accent-2));
-  background-clip: text;
 }
 main {
   position: relative;
@@ -61,8 +71,8 @@ main {
 
 /* || SCORES */
 .player-info {
-  background-color: black;
-  border-radius: 0 10px 0 0;
+  background-image: linear-gradient(50deg, black 90%, var(--clr-accent));
+  border-radius: 10px;
 
   width: 12rem;
   height: 20rem;
@@ -76,8 +86,9 @@ main {
 }
 .player-info::before {
   background-image: var(--grad-player);
-  border-radius: 0 10px 0 0;
-  background-size: 200% 200%;
+  background-size: 200%;
+  background-position: 100%;
+  border-radius: 10px;
 
   width: 102%;
   height: 102%;
@@ -90,7 +101,7 @@ main {
   left: -1%;
   z-index: -1;
 
-  animation: forwards bg 5s ease infinite;
+  /* animation: forwards bg 5s ease infinite; */
 }
 .player-info h3 {
   font-family: var(--ff-header);
@@ -120,7 +131,7 @@ main {
 
 /* || BOARD */
 .board {
-  background: var(--grad-player);
+  background: var(--grad-board);
   border-radius: 10%;
 
   width: 610px;
@@ -155,6 +166,7 @@ main {
   width: 200px;
   height: 200px;
   background-color: black;
+  transition: background 0.25s;
 }
 .cell-bg:hover {
   background-color: rgb(22, 22, 22);
@@ -174,7 +186,11 @@ main {
 
 /* || FOOTER */
 footer {
+  border-top: 1px solid var(--clr-border-footer);
   font-family: var(--ff-header);
+  padding: 10px;
+  width: 100%;
+  text-align: center;
 }
 a:any-link {
   text-decoration: none;
@@ -299,13 +315,13 @@ label:hover {
 
 @keyframes bg {
   0% {
-    background-position: 10% 0%;
+    background-position: 0% 0%;
   }
   50% {
-    background-position: 91% 100%;
+    background-position: 100% 100%;
   }
   100% {
-    background-position: 10% 0%;
+    background-position: 0% 0%;
   }
 }
 
