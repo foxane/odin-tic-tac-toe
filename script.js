@@ -8,8 +8,9 @@ const createPlayer = function (name, marker) {
   const getMarker = () => marker;
   const addScore = () => score++;
   const getScore = () => score;
+  const resetScore = () => (score = 0);
 
-  return { setName, addScore, getScore, getName, getMarker };
+  return { setName, addScore, getScore, resetScore, getName, getMarker };
 };
 
 // Put in global so it dont get affected by game
@@ -63,7 +64,7 @@ const gameHandler = (function () {
   const handleDraw = () => {
     domHandler.renderDialog("draw");
   };
-  const handleWin = (currentPlayer, players) => {
+  const handleWin = (currentPlayer, players, winCell) => {
     currentPlayer.addScore();
     domHandler.renderScore(players);
     domHandler.renderDialog("win", currentPlayer);
@@ -143,6 +144,10 @@ const domHandler = (function () {
     dialog.classList.add("hidden");
     modalOverlay.classList.add("hidden");
   });
+  document.querySelector(".show-board").addEventListener("click", () => {
+    dialog.classList.add("hidden");
+    modalOverlay.classList.add("hidden");
+  });
   document.querySelector(".change-name").addEventListener("click", () => {
     newNameModal.classList.remove("hidden");
     modalOverlay.classList.remove("hidden");
@@ -166,6 +171,16 @@ const domHandler = (function () {
     p2NewName.value = "";
     newNameModal.classList.add("hidden");
     modalOverlay.classList.add("hidden");
+  });
+  document.querySelector(".start").addEventListener("click", () => {
+    gameFlow.gameInit();
+  });
+  document.querySelector(".restart").addEventListener("click", () => {
+    gameFlow.gameInit();
+    players[0].resetScore();
+    players[1].resetScore();
+    domHandler.renderScore(players);
+    console.log("restart");
   });
 
   return { renderDialog, renderBoard, resetBoard, renderScore };
