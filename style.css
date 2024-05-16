@@ -31,7 +31,16 @@
 button {
   font-size: calc(var(--fs-body) - 0.3rem);
   font-weight: 600;
+  transition: border 0.25s, background 0.25s;
+  background-color: var(--clr-accent);
+  padding: 0.2em 0.5em;
+  border-radius: 5px;
+  border: 2px solid var(--clr-bg);
   cursor: pointer;
+}
+button:hover {
+  border: 2px solid var(--clr-accent);
+  background-color: var(--clr-border-btn);
 }
 * {
   padding: 0;
@@ -53,7 +62,6 @@ body {
 }
 header {
   color: var(--clr-accent);
-  border-bottom: 2px solid var(--clr-border-footer);
   font-family: var(--ff-header);
   font-size: calc(var(--fs-body) + 1rem);
 
@@ -62,7 +70,7 @@ header {
 
   text-align: center;
   z-index: 1;
-  animation: alternate title 2s ease infinite;
+  animation: alternate title 20s ease infinite;
 }
 main {
   position: relative;
@@ -71,7 +79,7 @@ main {
 
 /* || SCORES */
 .player-info {
-  background-image: linear-gradient(50deg, black 90%, var(--clr-accent));
+  background-color: var(--clr-bg);
   border-radius: 10px;
 
   width: 12rem;
@@ -97,7 +105,7 @@ main {
 
   display: block;
   position: absolute;
-  top: -1%;
+  top: -0.3%;
   left: -1%;
   z-index: -1;
 
@@ -111,17 +119,13 @@ main {
   padding: 10px;
 
   text-align: center;
+  animation: alternate title 20s ease infinite;
 }
 .player-info p {
   display: flex;
   justify-content: space-between;
 }
 .player-info button {
-  background-color: var(--clr-accent);
-  border: 2px solid var(--clr-border-btn);
-  border-radius: 4px;
-
-  padding: 0.25em 0.5em;
   place-self: center;
 }
 .player-info .control {
@@ -132,15 +136,15 @@ main {
 /* || BOARD */
 .board {
   background: var(--grad-board);
-  border-radius: 10%;
 
   width: 610px;
   height: 610px;
 
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
+  gap: 5px;
 
   box-sizing: content-box;
   animation: alternate bg 20s ease infinite;
@@ -171,22 +175,9 @@ main {
 .cell-bg:hover {
   background-color: rgb(22, 22, 22);
 }
-.cell-bg:nth-child(1) {
-  border-radius: 30% 0 0 0;
-}
-.cell-bg:nth-child(3) {
-  border-radius: 0 30% 0 0;
-}
-.cell-bg:nth-child(7) {
-  border-radius: 0 0 0 30%;
-}
-.cell-bg:nth-child(9) {
-  border-radius: 0 0 30% 0;
-}
 
 /* || FOOTER */
 footer {
-  border-top: 1px solid var(--clr-border-footer);
   font-family: var(--ff-header);
   padding: 10px;
   width: 100%;
@@ -228,17 +219,6 @@ a:hover {
   flex-flow: column nowrap;
   align-items: center;
   justify-content: space-evenly;
-}
-.modals > * > button {
-  background-color: var(--clr-accent);
-  padding: 0.2em 0.5em;
-  border-radius: 5px;
-  border: 2px solid var(--clr-bg);
-  cursor: pointer;
-}
-.modals > * > button:hover {
-  border: 2px solid var(--clr-accent);
-  background-color: var(--clr-border-btn);
 }
 .new-name-modal {
   position: relative;
@@ -306,7 +286,11 @@ label:hover {
 /* Animations */
 @keyframes title {
   0% {
-    color: grey;
+    color: var(--clr-accent);
+  }
+  50% {
+    color: var(--clr-accent);
+    opacity: 0.2;
   }
   100% {
     color: var(--clr-accent);
@@ -324,12 +308,3 @@ label:hover {
     background-position: 0% 0%;
   }
 }
-
-/* .win-line {
-  position: absolute;
-  background-color: var(--clr-accent);
-  width: 600px;
-  height: 10px;
-  top: 50%;
-}
- */
